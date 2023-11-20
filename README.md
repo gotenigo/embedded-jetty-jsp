@@ -5,13 +5,13 @@ This is a maven project, to build it:
 
     $ mvn clean package
 
-To run the example `org.eclipse.jetty.demo.Main`:
+To run the example `org.eclipse.jetty.demo.WebServer`:
 
     $ mvn exec:java
 
 Open your web browser to:
 
-    http://localhost:8080/  
+    http://localhost:8090/  
 
 To stop Jetty:
 
@@ -21,7 +21,7 @@ To stop Jetty:
 Code Of Interest
 ----------------
 
-See [org.eclipse.jetty.demo.Main](src/main/java/org/eclipse/jetty/demo/Main.java)
+See [org.eclipse.jetty.demo.WebServer](src/webServer/java/org/eclipse/jetty/demo/Main.java)
 
 **Set a Servlet Temp Directory**
 

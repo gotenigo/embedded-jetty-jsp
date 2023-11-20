@@ -1,14 +1,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.eclipse.jetty.demo</groupId>
-  <artifactId>embedded-jetty-jsp</artifactId>
+
+
+
+  <groupId>com-mgw-gui-vertical</groupId>
+  <artifactId>web-server</artifactId>
   <version>10.0-SNAPSHOT</version>
   <packaging>jar</packaging>
+
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>11</maven.compiler.source>
-    <maven.compiler.target>11</maven.compiler.target>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
 
     <maven.clean.plugin.version>3.1.0</maven.clean.plugin.version>
     <maven.enforcer.plugin.version>1.4.1</maven.enforcer.plugin.version>
@@ -28,17 +33,31 @@
     <servlet.version>4.0.4</servlet.version>
     <jetty.version>10.0.18</jetty.version>
   </properties>
+
+
   <dependencies>
+
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.18.22</version>
+      <scope>compile</scope>
+    </dependency>
+
+
     <dependency>
       <groupId>jakarta.servlet</groupId>
       <artifactId>jakarta.servlet-api</artifactId>
       <version>${servlet.version}</version>
     </dependency>
-    <dependency>
-      <groupId>org.eclipse.jetty</groupId>
-      <artifactId>jetty-annotations</artifactId>
-      <version>${jetty.version}</version>
-    </dependency>
+
+
+
+<!--    <dependency>-->
+<!--      <groupId>org.eclipse.jetty</groupId>-->
+<!--      <artifactId>jetty-annotations</artifactId>-->
+<!--      <version>${jetty.version}</version>-->
+<!--    </dependency>-->
     <dependency>
       <groupId>org.eclipse.jetty</groupId>
       <artifactId>jetty-webapp</artifactId>
@@ -50,17 +69,21 @@
       <version>${jetty.version}</version>
       <type>jar</type>
     </dependency>
-    <dependency>
-      <groupId>org.eclipse.jetty</groupId>
-      <artifactId>apache-jstl</artifactId>
-      <version>${jetty.version}</version>
-      <type>pom</type>
-    </dependency>
+<!--    <dependency>-->
+<!--      <groupId>org.eclipse.jetty</groupId>-->
+<!--      <artifactId>apache-jstl</artifactId>-->
+<!--      <version>${jetty.version}</version>-->
+<!--      <type>pom</type>-->
+<!--    </dependency>-->
     <dependency>
       <groupId>org.eclipse.jetty</groupId>
       <artifactId>jetty-slf4j-impl</artifactId>
       <version>${jetty.version}</version>
     </dependency>
+
+
+
+
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
@@ -68,9 +91,24 @@
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
-      <artifactId>jul-to-slf4j</artifactId>
-      <version>${slf4j.version}</version>
+      <artifactId>slf4j-simple</artifactId>
+      <version>1.7.36</version>
     </dependency>
+<!--    <dependency>-->
+<!--      <groupId>org.slf4j</groupId>-->
+<!--      <artifactId>jul-to-slf4j</artifactId>-->
+<!--      <version>${slf4j.version}</version>-->
+<!--    </dependency>-->
+
+
+
+      <dependency>
+        <groupId>org.yaml</groupId>
+        <artifactId>snakeyaml</artifactId>
+        <version>1.28</version> <!-- Use the latest version available -->
+      </dependency>
+
+
     <!-- Test Deps -->
     <dependency>
       <groupId>org.eclipse.jetty.toolchain</groupId>
@@ -78,55 +116,50 @@
       <version>6.2</version>
       <scope>test</scope>
     </dependency>
+
+
+
   </dependencies>
+
+
+
   <build>
     <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>${maven.compiler.plugin.version}</version>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>${maven.javadoc.plugin.version}</version>
-        <executions>
-          <execution>
-            <id>javadoc-jar</id>
-            <phase>package</phase>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <source>8</source>
-          <charset>UTF-8</charset>
-          <docencoding>UTF-8</docencoding>
-          <encoding>UTF-8</encoding>
-          <docfilessubdirs>true</docfilessubdirs>
-          <detectLinks>false</detectLinks>
-          <detectJavaApiLink>false</detectJavaApiLink>
-          <show>protected</show>
-          <attach>true</attach>
-        </configuration>
-      </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>${maven.surefire.plugin.version}</version>
+        <version>3.0.0-M5</version>
         <configuration>
-          <useManifestOnlyJar>false</useManifestOnlyJar>
+          <skipTests>true</skipTests>
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <version>${maven.exec.plugin.version}</version>
-        <configuration>
-          <mainClass>org.eclipse.jetty.demo.Main</mainClass>
-        </configuration>
-      </plugin>
+
+<!--      <plugin>-->
+<!--        <groupId>org.apache.maven.plugins</groupId>-->
+<!--        <artifactId>maven-compiler-plugin</artifactId>-->
+<!--        <version>${maven.compiler.plugin.version}</version>-->
+<!--      </plugin>-->
+<!--      <plugin>-->
+<!--        <groupId>org.apache.maven.plugins</groupId>-->
+<!--        <artifactId>maven-surefire-plugin</artifactId>-->
+<!--        <version>${maven.surefire.plugin.version}</version>-->
+<!--        <configuration>-->
+<!--          <useManifestOnlyJar>false</useManifestOnlyJar>-->
+<!--        </configuration>-->
+<!--      </plugin>-->
+<!--      <plugin>-->
+<!--        <groupId>org.codehaus.mojo</groupId>-->
+<!--        <artifactId>exec-maven-plugin</artifactId>-->
+<!--        <version>${maven.exec.plugin.version}</version>-->
+<!--        <configuration>-->
+<!--          <mainClass>org.eclipse.jetty.demo.WebServer</mainClass>-->
+<!--        </configuration>-->
+<!--      </plugin>-->
     </plugins>
   </build>
+
+
+
+
 </project>
