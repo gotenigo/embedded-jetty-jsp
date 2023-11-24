@@ -4,6 +4,10 @@ package app;
 import org.eclipse.jetty.demo.WebServer;
 
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+
 import static org.eclipse.jetty.demo.WebServer.DEFAULT_PORT;
 
 public class App {
@@ -17,12 +21,13 @@ public class App {
         String keyStorePath = "src/main/resources/tssapiclient-latest.jks";
         String password= "qwertyuioppoiuytrewq";
 
-
         WebServer webServer = new WebServer(port, webConsoleLogin, webConsolePassword, keyStorePath, password);
         webServer.start("E:\\GUI_IN_JAR2\\embedded-jetty-jsp\\app-gui\\src\\main\\resources\\webroot2\\");
         webServer.waitForInterrupt();
 
     }
+
+
 
 
 

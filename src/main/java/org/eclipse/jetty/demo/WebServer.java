@@ -22,6 +22,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.security.Constraint;
 import org.eclipse.jetty.util.security.Credential;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
+import org.eclipse.jetty.webapp.WebAppContext;
 
 
 /**
@@ -113,6 +114,11 @@ public class WebServer {
 
     public void start(String webSource) throws Exception{
 
+        if(webSource==null){
+            URI baseUri = getWebRootResourceUri();
+            webSource = baseUri.toASCIIString();
+        }
+
         HttpConfiguration httpConfig = new HttpConfiguration();
         httpConfig.setSecureScheme("https");
         httpConfig.setSecurePort(port);
@@ -131,7 +137,7 @@ public class WebServer {
         server.addConnector(connector);
 
         // Base URI for servlet context
-        URI baseUri = getWebRootResourceUri();
+
 
         // Create Servlet context
         ServletContextHandler servletContextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
@@ -143,18 +149,21 @@ public class WebServer {
         servletContextHandler.setSecurityHandler(getSecurityHandler());
 
         // Since this is a ServletContextHandler we must manually configure JSP support.
-        enableEmbeddedJspSupport(servletContextHandler);
+        //!!! TODO : try to remove JSP  !!!!!!!!!!!!!!!!!!!!!!!!!!!
+        //enableEmbeddedJspSupport(servletContextHandler);
+        WebAppContext webAppContext = new WebAppContext();
+        webAppContext.setContextPath("/");
+        webAppContext.setResourceBase(webSource);
+        server.setHandler(webAppContext);
 
-        if(webSource!=null){
-            webSource = baseUri.toASCIIString();
-        }
+
         ServletHolder holderDefault = new ServletHolder("createConfig",new CreateConfigController());
         holderDefault.setInitParameter("resourceBase", webSource);
         holderDefault.setInitParameter("dirAllowed", "true");
         servletContextHandler.addServlet(holderDefault, "/createConfig");
 
 
-        servletContextHandler.setWelcomeFiles(new String[] { "home.jsp" });
+        servletContextHandler.setWelcomeFiles(new String[] { "home.html" });
         ServletHolder holderPwd = new ServletHolder("default", DefaultServlet.class);
         //baseUri.toASCIIString()
         holderPwd.setInitParameter("resourceBase",webSource);
@@ -191,7 +200,6 @@ public class WebServer {
             }
         }
         servletContextHandler.setAttribute("javax.servlet.context.tempdir", scratchDir);
-
         // Set Classloader of Context to be sane (needed for JSTL)
         // JSP requires a non-System classloader, this simply wraps the
         // embedded System classloader in a way that makes it suitable

@@ -51,7 +51,7 @@ public class CreateConfigController extends HttpServlet {
         System.out.println("val="+val);
 
 
-        resp.sendRedirect("home.jsp");
+        resp.sendRedirect("home.html");
 
     }
 
